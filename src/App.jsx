@@ -4,15 +4,21 @@ import axios from "axios";
 import profilePic from "./assets/profilepic.png";
 import github from "./assets/github.webp";
 import { useEffect } from "react";
-import Input from "./components/Input"
+import Input from "./components/Input";
 
 function App() {
   const [username, setUsername] = useState("");
   const [userInfo, setUserInfo] = useState();
   const [userList, setUserList] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = async (e) => {
-    if (!username){setUserList(null); return;};
+    setLoading(true);
+    if (!username) {
+      setUserList(null);
+      setLoading(false)
+      return;
+    }
     //e.preventDefault()
     const response = await axios.get(
       `https://api.github.com/search/users?q=${username}&per_page=10&page=1`,
@@ -21,6 +27,7 @@ function App() {
     // user repo details : https://api.github.com/users/{username}/repos
     console.log(response.data.items);
     setUserList(response.data.items);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -32,7 +39,7 @@ function App() {
   }, [username]);
 
   return (
-    <>
+    <div className="background">
       <div className="header">
         <img src={github} alt="github-image" />
         <div className="header-components">
@@ -40,12 +47,25 @@ function App() {
           <p className="header-search">Search users and explore repos</p>
         </div>
       </div>
-      <div className="container">
-        <div className="inputBox">
-         <Input setUsername={setUsername}></Input>
+      <div className="inputBox">
+          <Input setUsername={setUsername}></Input>
         </div>
+      <div className={loading?"container center":"container"}>
+        
 
-        <div className="users">
+        {loading && (
+          <div class="loader">
+            <div class="loader__inner"></div>
+            <div class="loader__orbit">
+              <div class="loader__dot"></div>
+              <div class="loader__dot"></div>
+              <div class="loader__dot"></div>
+              <div class="loader__dot"></div>
+            </div>
+          </div>
+        )}
+
+       { !loading? <div className="users">
           {userList?.map((user, index) => (
             <div key={user.login} className="card">
               {/* Top background */}
@@ -65,9 +85,11 @@ function App() {
               </div>
             </div>
           ))}
-        </div>
+        </div>: ""
+}
       </div>
-    </>
+        
+    </div>
   );
 }
 
