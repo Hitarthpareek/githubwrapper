@@ -1,27 +1,28 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import profilePic from "./assets/profilepic.png";
 import github from "./assets/github.webp";
 import { useEffect } from "react";
 import Input from "./components/Input";
+import UserCard from "./components/UserCard";
+import Loader from "./components/Loader";
 
 function App() {
   const [username, setUsername] = useState("");
-  const [userInfo, setUserInfo] = useState();
   const [userList, setUserList] = useState();
   const [loading, setLoading] = useState(false);
+  const [currentProfile, setCurrentProfile] = useState()
 
   const handleFormSubmit = async (e) => {
     setLoading(true);
     if (!username) {
       setUserList(null);
-      setLoading(false)
+      setLoading(false);
       return;
     }
-    //e.preventDefault()
+   
     const response = await axios.get(
-      `https://api.github.com/search/users?q=${username}&per_page=10&page=1`,
+      `https://api.github.com/search/users?q=${username}&per_page=4&page=1`,
     );
     // user details: https://api.github.com/users/${username}
     // user repo details : https://api.github.com/users/{username}/repos
@@ -48,47 +49,19 @@ function App() {
         </div>
       </div>
       <div className="inputBox">
-          <Input setUsername={setUsername}></Input>
-        </div>
-      <div className={loading?"container center":"container"}>
-        
+        <Input setUsername={setUsername}></Input>
+      </div>
+      <div className={loading ? "container center" : "container"}>
+        {loading && <Loader />}
 
-        {loading && (
-          <div class="loader">
-            <div class="loader__inner"></div>
-            <div class="loader__orbit">
-              <div class="loader__dot"></div>
-              <div class="loader__dot"></div>
-              <div class="loader__dot"></div>
-              <div class="loader__dot"></div>
-            </div>
+        {!loading && (
+          <div className="users">
+            {userList?.map((user, index) => (
+              <UserCard key={user.login} user={user} index={index} />
+            ))}
           </div>
         )}
-
-       { !loading? <div className="users">
-          {userList?.map((user, index) => (
-            <div key={user.login} className="card">
-              {/* Top background */}
-              <div className={`card-top bg-${(index % 6) + 1}`}>
-                <img src={user.avatar_url} className="avatar" />
-              </div>
-
-              {/* Bottom content */}
-              <div className="card-bottom">
-                <h3>{user.login}</h3>
-                <p>GitHub user profile</p>
-
-                <div className="buttons">
-                  <button className="btn-light">View</button>
-                  <button className="btn-primary">Profile</button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>: ""
-}
       </div>
-        
     </div>
   );
 }

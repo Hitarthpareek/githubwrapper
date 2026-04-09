@@ -118,6 +118,7 @@ background: url("./assets/bg3.jpeg") center/cover;
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+  
 }
 
 .btn-light {
