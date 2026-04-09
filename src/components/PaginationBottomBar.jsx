@@ -1,16 +1,16 @@
-function PaginationBottomBar({page,setPage,totalPages}) {
+function PaginationBottomBar({ page, setPage, totalPages }) {
   return (
     <div className="pagination">
       <button onClick={() => setPage((p) => Math.max(p - 1, 1))}>Prev</button>
 
-      {[...Array(10)].map((_, i) => {
-        const pageNumber = Math.floor((page - 1) / 10) * 10 + i + 1;
+      {[...Array(5)].map((_, i) => {
+        const start = Math.max(page - 2, 1); // center current page
+        const pageNumber = start + i;
 
         if (pageNumber > totalPages) return null;
 
         return (
           <button
-            disabled={page === 1}
             key={pageNumber}
             className={page === pageNumber ? "active" : ""}
             onClick={() => setPage(pageNumber)}
