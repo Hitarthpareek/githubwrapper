@@ -1,121 +1,79 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import axios from "axios";
+import profilePic from "./assets/profilepic.png";
+import github from "./assets/github.webp";
+import { useEffect } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [username, setUsername] = useState("");
+  const [userInfo, setUserInfo] = useState();
+  const [userList, setUserList] = useState();
+
+  const handleFormSubmit = async (e) => {
+    if (!username) return;
+    //e.preventDefault()
+    const response = await axios.get(
+      `https://api.github.com/search/users?q=${username}&per_page=10&page=1`,
+    );
+    // user details: https://api.github.com/users/${username}
+    // user repo details : https://api.github.com/users/{username}/repos
+    console.log(response.data.items);
+    setUserList(response.data.items);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleFormSubmit();
+    }, 500); // wait 500ms after typing stops
+
+    return () => clearTimeout(timer); // cleanup
+  }, [username]);
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <div className="header">
+        <img src={github} alt="github-image" />
+        <div className="header-components">
+          <p className="header-github">GitHub Explorer</p>
+          <p className="header-search">Search users and explore repos</p>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+      </div>
+      <div className="container">
+        <div className="inputBox">
+          <form className="formCard" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              placeholder="Search Username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </form>
         </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
+        <div className="users">
+          {userList?.map((user, index) => (
+            <div key={user.login} className="card">
+              {/* Top background */}
+              <div className={`card-top bg-${(index % 6) + 1}`}>
+                <img src={user.avatar_url} className="avatar" />
+              </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+              {/* Bottom content */}
+              <div className="card-bottom">
+                <h3>{user.login}</h3>
+                <p>GitHub user profile</p>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+                <div className="buttons">
+                  <button className="btn-light">View</button>
+                  <button className="btn-primary">Profile</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
