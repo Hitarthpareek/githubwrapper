@@ -15,7 +15,7 @@ const Input = ({setUsername}) => {
 
 const StyledWrapper = styled.div`
   .input-container {
-    width: 280px;
+    width: 350px;
     position: relative;
   }
 
