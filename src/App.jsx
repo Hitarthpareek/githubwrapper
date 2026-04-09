@@ -4,6 +4,7 @@ import axios from "axios";
 import profilePic from "./assets/profilepic.png";
 import github from "./assets/github.webp";
 import { useEffect } from "react";
+import Input from "./components/Input"
 
 function App() {
   const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ function App() {
   const [userList, setUserList] = useState();
 
   const handleFormSubmit = async (e) => {
-    if (!username) return;
+    if (!username){setUserList(null); return;};
     //e.preventDefault()
     const response = await axios.get(
       `https://api.github.com/search/users?q=${username}&per_page=10&page=1`,
@@ -41,13 +42,7 @@ function App() {
       </div>
       <div className="container">
         <div className="inputBox">
-          <form className="formCard" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Search Username"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </form>
+         <Input setUsername={setUsername}></Input>
         </div>
 
         <div className="users">
