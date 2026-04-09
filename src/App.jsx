@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import github from "./assets/github.webp";
@@ -7,12 +7,14 @@ import Input from "./components/Input";
 import UserCard from "./components/UserCard";
 import Loader from "./components/Loader";
 import PaginationBottomBar from "./components/PaginationBottomBar";
+import Header from "./components/Header";
+import Profile from "./components/Profile";
 
 function App() {
   const [username, setUsername] = useState("");
   const [userList, setUserList] = useState();
   const [loading, setLoading] = useState(false);
-  const [currentProfile, setCurrentProfile] = useState();
+  const [selectedProfileId, setSelectedProfileId] = useState();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -36,47 +38,64 @@ function App() {
       setTotalPages(total);
       setLoading(false);
     } catch (e) {
-      console.log(e);
+      alert("API limit reached ! Try again in 10 seconds")
+      setUsername("")
+      setPage(1)
+      setLoading(false)
+      setUserList()
+      
     }
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      setPage(1)
       handleFormSubmit();
     }, 500); // wait 500ms after typing stops
 
-    return () => clearTimeout(timer); // cleanup
+    return () => clearTimeout(timer);
   }, [username]);
 
-  useEffect(()=>{
+  useEffect(() => {
     handleFormSubmit();
-  },[page])
+  }, [page]);
 
   return (
     <div className="root-container">
-      <div className="header">
-        <img src={github} alt="github-image" />
-        <div className="header-components">
-          <p className="header-github-text">GitHub Explorer</p>
-          <p className="header-search-text">Search users and explore repos</p>
-        </div>
-      </div>
-      <div className="inputBox">
-        <Input setUsername={setUsername}></Input>
-      </div>
-      <div className={loading ? "center" : ""}>
-        {loading && <Loader />}
+      <Header github={github} />
 
-        {!loading && (
-          <div className="users">
-            {userList?.map((user, index) => (
-              <UserCard key={user.login} user={user} index={index} />
-            ))}
+      {selectedProfileId ? (
+        <Profile username={selectedProfileId} setUsername={setSelectedProfileId} setUserList={setUserList} />
+      ) : (
+        <div className="search-and-list">
+          <div className="inputBox">
+            <Input username={username} setUsername={setUsername}></Input>
           </div>
-        )}
-      </div>
-      {userList && (
-        <PaginationBottomBar page={page} setPage={setPage} totalPages={totalPages}/>
+          <div className={loading ? "center" : ""}>
+            {loading && <Loader />}
+
+            {!loading && (
+              <div className="users">
+                {userList?.map((user, index) => (
+                  <UserCard
+                    key={user.login}
+                    user={user}
+                    index={index}
+                    setSelectedProfileId={setSelectedProfileId}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {userList && (
+            <PaginationBottomBar
+              page={page}
+              setPage={setPage}
+              totalPages={totalPages}
+            />
+          )}
+        </div>
       )}
     </div>
   );
