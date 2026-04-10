@@ -50,7 +50,7 @@ export default function Home() {
     const timer = setTimeout(() => {
       setPage(1)
       handleFormSubmit();
-    }, 500); // wait 500ms after typing stops
+    }, 700); // wait 700ms after typing stops
 
     return () => clearTimeout(timer);
   }, [username]);

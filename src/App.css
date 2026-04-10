@@ -264,6 +264,12 @@ body {
   font-size: 14px;
 }
 
+.profile-loader-wrapper {
+  height: 100vh;
+  width: 100%;
+  background: #f9fafb; /* light theme */
+}
+
 /* ================= FILTERS ================= */
 .filters {
   display: flex;

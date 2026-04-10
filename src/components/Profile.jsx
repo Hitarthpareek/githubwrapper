@@ -68,7 +68,12 @@ function Profile({ username, setUsername, setUserList }) {
       return order === "asc" ? val : -val;
     });
 
-  if (loading) return <Loader />;
+if (loading)
+  return (
+    <div className="center profile-loader-wrapper">
+      <Loader />
+    </div>
+  );
 
   if (!currentProfile) return null;
 
