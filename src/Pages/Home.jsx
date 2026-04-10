@@ -9,7 +9,7 @@ import Header from "../components/Header";
 import Profile from "../components/Profile";
 
 export default function Home() {
-      const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [userList, setUserList] = useState();
   const [loading, setLoading] = useState(false);
   const [selectedProfileId, setSelectedProfileId] = useState();
@@ -33,7 +33,8 @@ export default function Home() {
       //console.log(currentPage.data.total_count);
       setUserList(currentPage.data.items);
       const total = Math.min(currentPage.data.total_count, 1000);
-      setTotalPages(total);
+        const noofPages = Math.ceil(total / 10);
+      setTotalPages(noofPages);
       setLoading(false);
     } catch (e) {
       alert("API limit reached ! Try again in 10 seconds")
