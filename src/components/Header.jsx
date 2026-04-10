@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-
-function Header({github}){
+import github from "../assets/github.webp"
+function Header(){
   const navigate = useNavigate();
     return(
         <div className="header">

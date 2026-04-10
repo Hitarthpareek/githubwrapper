@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import github from "../assets/github.webp";
 import { useEffect } from "react";
 import Input from "../components/Input";
 import UserCard from "../components/UserCard";
@@ -60,7 +59,7 @@ export default function Home() {
   }, [page]);
   return (
     <div className="root-container">
-      <Header github={github} />
+      <Header/>
 
       {selectedProfileId ? (
         <Profile username={selectedProfileId} setUsername={setSelectedProfileId} setUserList={setUserList} />
