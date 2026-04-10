@@ -17,7 +17,7 @@ function UserCard({ user, index, setSelectedProfileId }) {
         <p>GitHub user profile</p>
 
         <div className="buttons">
-          <button className="btn-light">Bookmark</button>
+          {/* <button className="btn-light">Bookmark</button> */}
           <button onClick={handleClick} className="btn-primary">See Profile</button>
         </div>
       </div>

@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 function Header({github}){
+  const navigate = useNavigate();
     return(
         <div className="header">
         <img src={github} alt="github-image" />
@@ -6,6 +9,11 @@ function Header({github}){
           <p className="header-github-text">GitHub Explorer</p>
           <p className="header-search-text">Search users and explore repos</p>
         </div>
+
+        
+  <div className="header-right">
+    <button onClick={() => navigate("/bookmarks")} className="bookmark-btn">Bookmarks</button>
+  </div>
       </div>
     );
 }

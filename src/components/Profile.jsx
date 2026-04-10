@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "./Loader";
 
-function Profile({ username, setUsername,setUserList }) {
+function Profile({ username, setUsername, setUserList }) {
   const [currentProfile, setCurrentProfile] = useState(null);
   const [repos, setRepos] = useState([]);
 
@@ -11,6 +11,22 @@ function Profile({ username, setUsername,setUserList }) {
   const [language, setLanguage] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const handleBookmarkClick = (repo) => {
+    const existing = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+    // check duplicate
+    const alreadyExists = existing.some((item) => item.id === repo.id);
+
+    if (!alreadyExists) {
+      const updated = [...existing, repo];
+      localStorage.setItem("bookmarks", JSON.stringify(updated));
+      alert("✅Bookmarked Sucessfully");
+    }
+    else{
+      alert("❌Bookmark already exists ");
+    }
+  };
 
   // 🔹 Fetch data
   useEffect(() => {
@@ -28,6 +44,7 @@ function Profile({ username, setUsername,setUserList }) {
       );
 
       setCurrentProfile(userRes.data);
+      console.log(repoRes.data);
       setRepos(repoRes.data);
 
       setLoading(false);
@@ -51,7 +68,7 @@ function Profile({ username, setUsername,setUserList }) {
       return order === "asc" ? val : -val;
     });
 
-  if (loading) return  <Loader />
+  if (loading) return <Loader />;
 
   if (!currentProfile) return null;
 
@@ -70,9 +87,14 @@ function Profile({ username, setUsername,setUserList }) {
     <div className="profile-container">
       {/* 🔹 PROFILE */}
       <div className="profile-card">
-        <button className="back-btn" onClick={() =>{ setUsername();    }}>
-    ← Back
-  </button>
+        <button
+          className="back-btn"
+          onClick={() => {
+            setUsername();
+          }}
+        >
+          ← Back
+        </button>
         <img src={avatar_url} className="profile-avatar" />
 
         <div className="profile-info">
@@ -149,14 +171,27 @@ function Profile({ username, setUsername,setUserList }) {
         <div className="repo-grid">
           {filteredRepos.map((repo) => (
             <div key={repo.id} className="repo-card">
-              <h4>{repo.name}</h4>
-              <p>{repo.description}</p>
-
+              <a
+                className="open-github-tag"
+                href={repo.html_url}
+                target="_blank"
+              >
+                <h4>{repo.name}</h4>
+                <p>{repo.description}</p>
+              </a>
               <div className="repo-footer">
                 <span>{repo.language}</span>
                 <span>⭐ {repo.stargazers_count}</span>
                 <span>🍴 {repo.forks_count}</span>
               </div>
+
+              <button
+                style={{ marginTop: 10 }}
+                className="btn-light"
+                onClick={() => handleBookmarkClick(repo)}
+              >
+                Bookmark
+              </button>
             </div>
           ))}
         </div>

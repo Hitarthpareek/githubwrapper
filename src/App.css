@@ -1,19 +1,21 @@
-*{
+* {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
-body{
+body {
   background: url("./assets/bg9.jpeg") center/cover;
   min-height: 100vh;
 }
 
-.header{
-  padding: 14px;
-  padding-left: 30px;
+/* ================= HEADER ================= */
+.header {
+  padding: 14px 30px;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-  
   position: fixed;
   top: 0;
   left: 0;
@@ -21,43 +23,71 @@ body{
   background: white;
   z-index: 1000;
 }
-.header img{
+
+.header img {
   height: 35px;
   border-radius: 5px;
 }
-.header-components p{
+
+.header-components p {
   padding-left: 10px;
 }
-.header-github-text{
-  font-weight:900;
+
+.header-github-text {
+  font-weight: 900;
 }
-.header-search-text{
+
+.header-search-text {
   font-weight: 100;
   font-size: 14px;
 }
 
+.header-components {
+  display: flex;
+  flex-direction: column;
+}
+
+/* push right section */
+.header-right {
+  margin-left: auto;
+}
+
+.bookmark-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #0969da;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.bookmark-btn:hover {
+  background: #0550ae;
+}
+
+/* ================= LAYOUT ================= */
 .root-container {
-  padding-top: 80px; /* ✅ equal to header height */
+  padding-top: 80px;
 }
 
 /* loader */
 .center {
-  padding-top: 150px; /* full screen minus header */
+  padding-top: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-
-.inputBox{
-  padding: 20px 0px 20px 0px;
-
+.inputBox {
+  padding: 20px 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Container */
+/* ================= USERS GRID ================= */
 .users {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -66,44 +96,39 @@ body{
   padding-bottom: 80px;
 }
 
-/* Card */
+/* ================= CARD ================= */
 .card {
   border-radius: 10px;
   overflow: hidden;
   background: white;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
 }
 
 .card:hover {
   transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Top section */
 .card-top {
   height: 120px;
-  position: relative; /* ✅ IMPORTANT */
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Avatar */
 .avatar {
   height: 110px;
   border-radius: 50%;
   border: 4px solid white;
-
   position: absolute;
-  bottom: -35px; /* ✅ pushes half outside */
+  bottom: -35px;
 }
 
-/* Bottom section */
 .card-bottom {
-  padding: 50px 15px 15px; /* ✅ extra top padding */
+  padding: 50px 15px 15px;
   text-align: center;
 }
 
@@ -116,43 +141,51 @@ body{
   color: gray;
 }
 
-/* Buttons */
+/* ================= BUTTONS ================= */
 .buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 10px;
+}
 
+.btn-light,
+.btn-primary {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .btn-light {
   background: #eee;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
+}
+
+.btn-light:hover {
+  background: #000;
+  color: white;
 }
 
 .btn-primary {
   background: #00aaff;
   color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
 }
 
+.btn-primary:hover {
+  background: #0078b4;
+}
+
+/* ================= PAGINATION ================= */
 .pagination {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-
   background: white;
   padding: 12px;
-
   display: flex;
   justify-content: center;
   gap: 8px;
-
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
@@ -174,120 +207,13 @@ body{
   color: white;
 }
 
-/* profile css */
-/* Container */
-.profile-container {
-  padding: 20px;
-}
-
-/* Profile */
-.profile-card {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  border: 1px solid #d0d7de;
-  border-radius: 12px;
-  background: #f6f8fa;
-}
-
-.profile-avatar {
-  width: 80px;
-  border-radius: 50%;
-}
-
-/* Filters */
-.filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 15px 0;
-}
-
-.filters button {
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 1px solid #d0d7de;
-  background: #f6f8fa;
-  cursor: pointer;
-}
-
-.filters select {
-  margin-left: auto;
-  padding: 6px;
-}
-
-/* 🔥 Scrollable repo section */
-.repo-section {
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-/* Grid */
-.repo-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* desktop */
-  gap: 20px;
-}
-
-/* Repo card */
-.repo-card {
-  padding: 15px;
-  border: 1px solid #d0d7de;
-  border-radius: 12px;
-  background: white;
-}
-
-.repo-card h4 {
-  color: #0969da;
-}
-
-.repo-card p {
-  font-size: 14px;
-  color: gray;
-}
-
-.repo-footer {
-  display: flex;
-  gap: 10px;
-  font-size: 14px;
-}
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .repo-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .repo-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .profile-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-}
-
-/* Small mobile */
-@media (max-width: 480px) {
-  .repo-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* profile page css */
-/* Container */
+/* ================= PROFILE ================= */
 .profile-container {
   padding: 20px;
   max-width: 1100px;
   margin: auto;
 }
 
-/* Profile */
 .profile-card {
   display: flex;
   position: relative;
@@ -298,12 +224,10 @@ body{
   border: 1px solid #d0d7de;
 }
 
-/* back button */
 .back-btn {
   position: absolute;
   top: 15px;
   right: 15px;
-
   padding: 6px 12px;
   border-radius: 8px;
   border: none;
@@ -311,7 +235,6 @@ body{
   color: white;
   cursor: pointer;
   font-size: 14px;
-
   transition: 0.2s;
 }
 
@@ -341,7 +264,7 @@ body{
   font-size: 14px;
 }
 
-/* Filters */
+/* ================= FILTERS ================= */
 .filters {
   display: flex;
   gap: 10px;
@@ -368,20 +291,18 @@ body{
   padding: 6px;
 }
 
-/* Repo Section */
+/* ================= REPO GRID ================= */
 .repo-section {
   max-height: 60vh;
   overflow-y: auto;
 }
 
-/* Grid */
 .repo-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-/* Repo Card */
 .repo-card {
   background: white;
   border: 1px solid #d0d7de;
@@ -391,8 +312,10 @@ body{
 }
 
 .repo-card:hover {
+  background-color: #e9e9e9;
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .repo-card h4 {
@@ -410,7 +333,11 @@ body{
   margin-top: 10px;
 }
 
-/* Responsive */
+.open-github-tag {
+  text-decoration: none;
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
   .repo-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -434,9 +361,7 @@ body{
   }
 }
 
-
-
-/* Background images */
+/* ================= BACKGROUNDS ================= */
 .bg-1 { background: url("./assets/bg1.jpeg") center/cover; }
 .bg-2 { background: url("./assets/bg2.jpeg") center/cover; }
 .bg-3 { background: url("./assets/bg3.jpeg") center/cover; }
