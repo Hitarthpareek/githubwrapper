@@ -1,5 +1,6 @@
 # GitHub Explorer
 
+
 A React-based web application that allows you to search for GitHub users, view their profiles, explore their repositories, and bookmark your favorites. This project leverages the GitHub API to fetch user and repository data in real-time.
 
 ## Features
